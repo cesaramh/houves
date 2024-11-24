@@ -1,0 +1,56 @@
+%%%%% Identity
+Var id:Type.
+Lemma Id:(id->id).
+Resolve.
+Goals.
+Save.
+%%%%% Solution Id? := [v0:id]v0:(id->id)
+
+%%%%% Transitivity for propositions
+Var A:Type.
+Var B:Type.
+Var C:Type.
+Var t1:(A->B).
+Var t2:(B->C).
+Lemma c:(A->C).
+Resolve.
+Goals.
+Save.
+%%%%% Solution c? := [v0:A](t2 (t1 v0)):(A->C)
+
+%%%%% Transitivity for naturals
+Section Nat.
+Var nat:Type.
+Var h0:nat.
+Var h1:nat.
+Var h2:nat.
+Var leq:(nat->(nat->Type)).
+Var H:(n:nat)((leq n) n). 
+Var H1:((leq h0) h1).
+Var H2:((leq h1) h2).
+Var T:(n:nat)(m:nat)(p:nat)(((leq n) m) -> (((leq m) p) -> ((leq n) p))).
+Lemma I:((leq h0) h2).
+Resolve using Nat.
+Goals.
+Save.
+End Nat.
+%%%%% Solution I? := (((((T h0) h1) h2) H1) H2):((leq h0) h2)
+
+%%%%% Cantor's constraints
+Section Cantor.
+Var o:Type.
+Var i:Type.
+Var f:(i->(i->o)).
+Var g:((i->o)->i).
+Var not:(o->o).
+Lemma P:((i->o)->o).
+Lemma X:(i->o).
+Go.
+Unify (P? X?) = (not (P?(f(g X?)))) using Cantor.
+%%Unify (not (P? X?)) = (P?(f(g X?))) using Cantor.
+Goals.
+Save.
+End Cantor.
+%%%%% Solution X? := [v3:i](not ((f v3) v3)):(i->o)
+%%%%%          P? := [v2:(i->o)](v2 (g [v9:i](not ((f v9) v9)))):((i->o)->o)
+
